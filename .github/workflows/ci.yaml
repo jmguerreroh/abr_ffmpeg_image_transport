@@ -9,8 +9,14 @@ on:
       - main
 
 jobs:
-  ROS2:
-    runs-on: ubuntu-24.04
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    container:
+      image: osrf/ros:jazzy-desktop
+    strategy:
+      matrix:
+        os: [ubuntu-24.04]
+      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,8 +26,15 @@ jobs:
         with:
           ros-distro: jazzy
 
-      - name: Build ROS 2 package
+      - name: build and test
         uses: ros-tooling/action-ros-ci@0.4.1
         with:
           package-name: abr_ffmpeg_image_transport
           target-ros2-distro: jazzy
+          vcs-repo-file-url: ""
+          colcon-defaults: |
+            {
+              "test": {
+                "parallel-workers" : 1
+              }
+            }
