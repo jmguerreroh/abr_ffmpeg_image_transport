@@ -18,19 +18,12 @@ jobs:
         os: [ubuntu-24.04]
       fail-fast: false
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup ROS 2 environment
-        uses: ros-tooling/setup-ros@0.7.10
-        with:
-          ros-distro: jazzy
 
       - name: build and test
         uses: ros-tooling/action-ros-ci@0.4.1
         with:
-          package-name: abr_ffmpeg_image_transport
-          target-ros2-distro: jazzy
+          package-name: computer_vision
+          target-ros2-distro: rolling
           vcs-repo-file-url: ""
           colcon-defaults: |
             {
